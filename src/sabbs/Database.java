@@ -37,6 +37,21 @@ public class Database {
         }
         return listings;
     }
+    
+    public List<Listing> queryDateListings(Date from, Date to) throws SQLException {
+        List<Listing> listings = new ArrayList<Listing>();
+        String sql = "select * from Listings lsts inner join (select distinct t.lid from Transactions t where not ? > t.endDate and ? < t.startDate) as avaliable_listings on avaliable_listings.lid = lsts.id;";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setDate(1, to);
+        stmt.setDate(2, from);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            Listing tmp = new Listing(rs.getInt("cusid"), rs.getString("Region"), rs.getString("Address"), rs.getInt("Price"), rs.getInt("Capacity"));
+            tmp.updateId(rs.getInt("id"));
+            listings.add(tmp);
+        }
+        return listings;
+    }
 
     //Throw our the created listing after creation as fields are not handled by java
     public void insertListing(Listing listing) throws SQLException {

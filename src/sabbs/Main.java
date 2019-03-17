@@ -2,28 +2,80 @@ package sabbs;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
 
 public class Main extends Application {
+    private ListingManager listingManager;
+
+    private Stage primaryStage;
+    private BorderPane rootLayout;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+    public void start(Stage primaryStage) throws Exception {
+        listingManager = new ListingManager();
+        this.primaryStage = primaryStage;
+        primaryStage.setTitle("Simple AirBnb Booking System");
+
+        initRootLayout();
+        showBrowser();
+    }
+
+    /**
+     * Initializes the root layout.
+     */
+    public void initRootLayout() {
+        try {
+            // Load root layout from fxml file.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("RootLayout.fxml"));
+            rootLayout = (BorderPane) loader.load();
+
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(rootLayout);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Shows the person overview inside the root layout.
+     */
+    public void showBrowser() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("Browser.fxml"));
+            AnchorPane browser = (AnchorPane) loader.load();
+
+            // Set person overview into the center of root layout.
+            rootLayout.setCenter(browser);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Returns the main stage.
+     * @return
+     */
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 
 
     public static void main(String[] args) {
-        //launch(args); //run with GUI
-        queryDatabaseExample();
-
-
+        launch(args); //run with GUI
+        //queryDatabaseExample();
     }
 
     private static void queryDatabaseExample() {
@@ -42,6 +94,6 @@ public class Main extends Application {
             System.out.println("Rows: " + rowCount);
         } catch (SQLException e) {
             e.printStackTrace();
-        } //close ocnnections(?)
+        }
     }
 }

@@ -21,16 +21,16 @@ public class Database {
         statement = connection.createStatement();
     }
 
-    public List<Listing> queryListings() {
-        /* TO DO */
+    public List<Listing> queryListings(String attribute, boolean ascending, boolean showFull) {
+        /* TODO Get listings that are ordered by attribute, ascending/descending, and optionally get full ones too*/
         return Collections.emptyList();
     }
 
     public void insertListing(Listing listing) {
-        /* TO DO: insert listing into DB */
+        /* TODO: insert listing into DB */
     }
 
     public void insertTransaction(Transaction transaction) {
-        /* TODO */
+        /* TODO Insert booking */
     }
 }

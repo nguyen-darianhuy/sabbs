@@ -1,21 +1,18 @@
 package sabbs;
 
+import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class ListingManager {
     private Database database;
-
     private List<Listing> listings;
-    private Map<String, Customer> idToCustomer;
-    private Map<String, Listing> idToListing;
-    private Map<String, Transaction> idToTransaction;
 
-    public ListingManager() {
-
+    public ListingManager() throws SQLException {
+        database = new Database();
+        listings = Collections.emptyList();
     }
-
-    public void sortListing(String )
 
     public void addListing(Listing listing) {
         database.insertListing(listing);
@@ -25,8 +22,8 @@ public class ListingManager {
         database.insertTransaction(transaction);
     }
 
-    public void updateListings() {
-        listings = database.queryListings();
+    public void sortListings(String attribute, boolean ascending, boolean showFull) {
+        listings = database.queryListings(attribute, ascending, showFull);
     }
 
     public List<Listing> getListings() {

@@ -13,7 +13,6 @@ import java.sql.SQLException;
 
 public class RootController {
 
-
     private Main main;
 
     @FXML

@@ -32,7 +32,6 @@ public class Main extends Application {
 
         initRootLayout();
         showBrowser();
-        showPostListing();
     }
 
     /**
@@ -45,17 +44,12 @@ public class Main extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
-            
+
             RootController c = loader.getController();
             c.setMain(this);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setPage(Node page) {
-        rootLayout.setCenter(page);
     }
 
     /**

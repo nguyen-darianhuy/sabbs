@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sabbs.PostListing">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sabbs.PostListingController">
    <children>
       <SplitPane dividerPositions="0.29797979797979796" layoutX="200.0" layoutY="160.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -32,11 +32,11 @@
                </children></AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TextField layoutX="57.0" layoutY="30.0" />
-                  <TextField layoutX="57.0" layoutY="88.0" />
-                  <TextField layoutX="57.0" layoutY="150.0" />
-                  <TextField layoutX="57.0" layoutY="209.0" />
-                  <Button disable="true" layoutX="116.0" layoutY="260.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="69.0" text="Post" />
+                  <TextField fx:id="addressField" layoutX="57.0" layoutY="30.0" />
+                  <TextField fx:id="regionField" layoutX="57.0" layoutY="88.0" />
+                  <TextField fx:id="priceField" layoutX="57.0" layoutY="150.0" />
+                  <TextField fx:id="capacityField" layoutX="57.0" layoutY="209.0" />
+                  <Button layoutX="116.0" layoutY="260.0" mnemonicParsing="false" onAction="#submit" prefHeight="45.0" prefWidth="69.0" text="Post" />
                </children>
             </AnchorPane>
         </items>

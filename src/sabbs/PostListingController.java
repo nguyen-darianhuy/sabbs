@@ -48,12 +48,20 @@ public class PostListingController {
             int intPrice = Integer.parseInt(price);
             int intCap = Integer.parseInt(capacity);
             Listing newListing = new Listing(1, region, address, intPrice, intCap);
-            database.insertListing(newListing);
-            addressField.clear();
-            regionField.clear();
-            priceField.clear();
-            capacityField.clear();
-            showSuccess();
+            try {
+                database.insertListing(newListing);
+
+                showSuccess();
+            }
+            catch(SQLException e){
+                showDup();
+            }
+            finally {
+                addressField.clear();
+                regionField.clear();
+                priceField.clear();
+                capacityField.clear();
+            }
         }
     }
 
@@ -74,6 +82,14 @@ public class PostListingController {
         Alert alert = new Alert(AlertType.CONFIRMATION, confirm, ButtonType.OK);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.setHeaderText("Success");
+        alert.show();
+    }
+
+    private void showDup(){
+        String confirm = "This listing is already in the database.";
+        Alert alert = new Alert(AlertType.WARNING, confirm, ButtonType.OK);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.setHeaderText("Duplicate");
         alert.show();
     }
 

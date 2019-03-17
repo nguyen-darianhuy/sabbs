@@ -1,9 +1,9 @@
 package sabbs;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javafx.collections.ObservableList;
+
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -16,14 +16,24 @@ public class Database {
     private Connection connection;
     private Statement statement;
 
-    public Database() throws SQLException{
+    public Database() throws SQLException {
         connection = DriverManager.getConnection(databaseURL, user, pass);
         statement = connection.createStatement();
     }
 
-    public List<Listing> queryListings(String attribute, boolean ascending, boolean showFull) {
-        /* TODO Get listings that are ordered by attribute, ascending/descending, and optionally get full ones too*/
-        return Collections.emptyList();
+    public List<Listing> queryListings(String attribute, boolean ascending, boolean showFull) throws SQLException {
+        List<Listing> listings = new ArrayList<>();
+        String ascendingStatement = ascending ? "ASC" : "DESC";
+        String showFullStatement = showFull ? "" : "WHERE (id not in (SELECT lid FROM Transactions))";
+        ResultSet rs = statement.executeQuery(String.format("SELECT * FROM Listings %s ORDER BY %s %s;",
+                                                                showFullStatement, attribute, ascendingStatement));
+
+        int rowCount = 0;
+        while (rs.next()) {
+            listings.add(new Listing(rs.getString("Region"), rs.getString("Address"), rs.getInt("Price"), rs.getInt("Capacity")));
+            rowCount++;
+        }
+        return listings;
     }
 
     public void insertListing(Listing listing) {

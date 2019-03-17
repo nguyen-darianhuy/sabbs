@@ -26,7 +26,7 @@ public class Database {
         String ascendingStatement = ascending ? "ASC" : "DESC";
         String showFullStatement = showFull ? "" : "WHERE (id not in (SELECT lid FROM Transactions))";
         ResultSet rs = statement.executeQuery(String.format("SELECT * FROM Listings %s ORDER BY %s %s;",
-                                                                showFullStatement, attribute, ascendingStatement));
+                showFullStatement, attribute, ascendingStatement));
 
         int rowCount = 0;
         while (rs.next()) {
@@ -39,33 +39,32 @@ public class Database {
     }
 
     //Throw our the created listing after creation as fields are not handled by java
-    public void insertListing(Listing listing) {
+    public void insertListing(Listing listing) throws SQLException {
         String sql = "INSERT INTO Listings (cusid, Region, Address, Price, Capacity) VALUES (?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, listing.getCid());
-            stmt.setString(2, listing.getRegion());
-            stmt.setString(3, listing.getAddress());
-            stmt.setInt(4, listing.getPrice());
-            stmt.setInt(5, listing.getCapacity());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, listing.getCid());
+        stmt.setString(2, listing.getRegion());
+        stmt.setString(3, listing.getAddress());
+        stmt.setInt(4, listing.getPrice());
+        stmt.setInt(5, listing.getCapacity());
+        stmt.executeUpdate();
 
     }
 
-    public void insertTransaction(Transaction transaction) {
-        String sql = "INSERT INTO TRANSACTION (cid, lid, startDate, endDate) VALUES (?, ?, ?, ?)";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, transaction.getCid());
-            stmt.setInt(2, transaction.getLid());
-            stmt.setDate(3, transaction.getStartDate());
-            stmt.setDate(4, transaction.getEndDate());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void insertTransaction(Transaction transaction) throws SQLException {
+        String sql = "INSERT INTO Transactions (cid, lid, startDate, endDate) VALUES (?, ?, ?, ?)";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, transaction.getCid());
+        stmt.setInt(2, transaction.getLid());
+        stmt.setDate(3, transaction.getStartDate());
+        stmt.setDate(4, transaction.getEndDate());
+        stmt.executeUpdate();
+    }
+
+    public void insertCustomer(Customer customer) throws SQLException {
+        String sql = "INSERT INTO Customers (name) VALUES (?)";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, customer.getName());
+        stmt.executeUpdate();
     }
 }

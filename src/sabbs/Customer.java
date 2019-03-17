@@ -1,6 +1,11 @@
+package sabbs;
 public class Customer{
-    int id;
-    String name;
+    private int id;
+    private String name;
+
+    public Customer(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;
@@ -10,6 +15,7 @@ public class Customer{
         return name;
     }
 
+    @Override
     public String toString(){
         return "(\"" + name + "\")";
     }

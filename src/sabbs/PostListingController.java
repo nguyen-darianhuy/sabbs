@@ -47,7 +47,8 @@ public class PostListingController {
         else{
             int intPrice = Integer.parseInt(price);
             int intCap = Integer.parseInt(capacity);
-            Listing newListing = new Listing(region, address, intPrice, intCap);
+            int cid = 102; //TODO placeholder
+            Listing newListing = new Listing(cid, region, address, intPrice, intCap);
             database.insertListing(newListing);
         }
     }

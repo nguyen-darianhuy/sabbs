@@ -23,7 +23,11 @@ public class ListingManager {
     }
 
     public void sortListings(String attribute, boolean ascending, boolean showFull) {
-        listings = database.queryListings(attribute, ascending, showFull);
+        try {
+            listings = database.queryListings(attribute, ascending, showFull);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Listing> getListings() {

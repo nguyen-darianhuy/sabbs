@@ -74,6 +74,15 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        Listing tmp = new Listing(5,"test","123 test",50,5);
+        try {
+            Database tmpdB = new Database();
+            tmpdB.insertListing(tmp);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
         launch(args); //run with GUI
         //queryDatabaseExample();
     }

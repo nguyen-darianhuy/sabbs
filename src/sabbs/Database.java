@@ -22,7 +22,7 @@ public class Database {
     }
 
     public List<Listing> queryListings(String attribute, boolean ascending, boolean showFull) throws SQLException {
-        List<Listing> listings = new ArrayList<>();
+        List<Listing> listings = new ArrayList<Listing>();
         String ascendingStatement = ascending ? "ASC" : "DESC";
         String showFullStatement = showFull ? "" : "WHERE (id not in (SELECT lid FROM Transactions))";
         ResultSet rs = statement.executeQuery(String.format("SELECT * FROM Listings %s ORDER BY %s %s;",
@@ -30,17 +30,42 @@ public class Database {
 
         int rowCount = 0;
         while (rs.next()) {
-            listings.add(new Listing(rs.getString("Region"), rs.getString("Address"), rs.getInt("Price"), rs.getInt("Capacity")));
+            Listing tmp = new Listing(rs.getInt("cusid"), rs.getString("Region"), rs.getString("Address"), rs.getInt("Price"), rs.getInt("Capacity"));
+            tmp.updateId(rs.getInt("id"));
+            listings.add(tmp);
             rowCount++;
         }
         return listings;
     }
 
+    //Throw our the created listing after creation as fields are not handled by java
     public void insertListing(Listing listing) {
-        /* TODO: insert listing into DB */
+        String sql = "INSERT INTO Listings (cusid, Region, Address, Price, Capacity) VALUES (?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, listing.getCid());
+            stmt.setString(2, listing.getRegion());
+            stmt.setString(3, listing.getAddress());
+            stmt.setInt(4, listing.getPrice());
+            stmt.setInt(5, listing.getCapacity());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void insertTransaction(Transaction transaction) {
-        /* TODO Insert booking */
+        String sql = "INSERT INTO TRANSACTION (cid, lid, startDate, endDate) VALUES (?, ?, ?, ?)";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, transaction.getCid());
+            stmt.setInt(2, transaction.getLid());
+            stmt.setDate(3, transaction.getStartDate());
+            stmt.setDate(4, transaction.getEndDate());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

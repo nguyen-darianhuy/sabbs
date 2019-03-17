@@ -47,19 +47,33 @@ public class PostListingController {
         else{
             int intPrice = Integer.parseInt(price);
             int intCap = Integer.parseInt(capacity);
-            Listing newListing = new Listing(region, address, intPrice, intCap);
+            Listing newListing = new Listing(1, region, address, intPrice, intCap);
             database.insertListing(newListing);
+            addressField.clear();
+            regionField.clear();
+            priceField.clear();
+            capacityField.clear();
+            showSuccess();
         }
     }
 
     private void showAlert(){
-        String warning = "Please provide the following: \n";
+        String warning = "";
         if(address.equals("")){warning += "     address\n";}
         if(region.equals("")) {warning += "     region\n";}
         if(price.equals("")) {warning += "     price\n";}
         if(capacity.equals("")) {warning += "     capacity";}
-        Alert alert = new Alert(AlertType.INFORMATION, warning, ButtonType.OK);
+        Alert alert = new Alert(AlertType.WARNING, warning, ButtonType.OK);
+        alert.setHeaderText("Please provide the following ");
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.show();
+    }
+
+    private void showSuccess(){
+        String confirm = "You have added a new listing.";
+        Alert alert = new Alert(AlertType.CONFIRMATION, confirm, ButtonType.OK);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.setHeaderText("Success");
         alert.show();
     }
 

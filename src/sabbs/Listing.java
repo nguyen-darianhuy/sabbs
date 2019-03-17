@@ -1,12 +1,14 @@
 package sabbs;
 public class Listing{
     private int id;
+    private int cid;
     private String region;
     private String address;
     private int price;
     private int capacity;
 
-    public Listing(String region, String address, int price, int capacity) {
+    public Listing(int cid, String region, String address, int price, int capacity) {
+        this.cid = cid;
         this.region = region;
         this.address = address;
         this.price = price;
@@ -15,6 +17,10 @@ public class Listing{
 
     public int getId() {
         return id;
+    }
+
+    public int getCid() {
+        return cid;
     }
 
     public String getRegion() {
@@ -31,6 +37,10 @@ public class Listing{
 
     public int getCapacity() {
         return capacity;
+    }
+
+    public void updateId(int id){
+        this.id = id;
     }
 
     @Override

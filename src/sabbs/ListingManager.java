@@ -1,5 +1,8 @@
 package sabbs;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +14,7 @@ public class ListingManager {
 
     public ListingManager() throws SQLException {
         database = new Database();
-        listings = Collections.emptyList();
+        listings = FXCollections.observableArrayList();
     }
 
     public void addListing(Listing listing) {
@@ -22,12 +25,8 @@ public class ListingManager {
         database.insertTransaction(transaction);
     }
 
-    public void sortListings(String attribute, boolean ascending, boolean showFull) {
-        try {
-            listings = database.queryListings(attribute, ascending, showFull);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void sortListings(String attribute, boolean ascending, boolean showFull) throws SQLException {
+        listings = database.queryListings(attribute, ascending, showFull);
     }
 
     public List<Listing> getListings() {

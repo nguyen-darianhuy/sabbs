@@ -1,6 +1,7 @@
 package sabbs;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -9,6 +10,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
     private ListingManager listingManager;
@@ -58,6 +61,13 @@ public class Main extends Application {
 
             // Set person overview into the center of root layout.
             rootLayout.setCenter(browser);
+            BrowserController c = loader.getController();
+            try {
+                listingManager.sortListings("Address", true, true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            c.updateListings(FXCollections.observableArrayList(listingManager.getListings()));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,15 +84,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        Listing tmp = new Listing(5,"test","123 test",50,5);
-        try {
-            Database tmpdB = new Database();
-            tmpdB.insertListing(tmp);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
         launch(args); //run with GUI
         //queryDatabaseExample();
     }
@@ -92,15 +93,23 @@ public class Main extends Application {
             Connection connection = DriverManager.getConnection("jdbc:mysql://ambari-head.csc.calpoly.edu:3306/databois", "databois", "kappa321");
             Statement statement = connection.createStatement()
         ) {
-            ResultSet rs = statement.executeQuery("SELECT * FROM Customers");
+            List<Listing> listings = new ArrayList<>();
+            String attribute = "Region";
+            boolean showFull = true;
+            boolean ascending = true;
+            String ascendingStatement = ascending ? "ASC" : "DESC";
+            String showFullStatement = showFull ? "" : "WHERE (id not in (SELECT lid FROM Transactions))";
+            ResultSet rs = statement.executeQuery(String.format("SELECT * FROM Listings %s ORDER BY %s %s;",
+                    showFullStatement, attribute, ascendingStatement));
+
             int rowCount = 0;
             while (rs.next()) {
-                String name = rs.getString("name");
-                String address = rs.getString("address");
-                System.out.printf("(%s, %s)%n", name, address);
+                Listing listing = new Listing(rs.getInt("cusid"), rs.getString("Region"), rs.getString("Address"), rs.getInt("Price"), rs.getInt("Capacity"));
+                listing.updateId(rs.getInt("id"));
+
+                listings.add(listing);
                 rowCount++;
             }
-            System.out.println("Rows: " + rowCount);
         } catch (SQLException e) {
             e.printStackTrace();
         }

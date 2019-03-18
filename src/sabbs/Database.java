@@ -86,7 +86,7 @@ public class Database {
         return transactions;
 
     }
-
+/*
     public List<Customer> getCustomers() throws SQLException {
         List<Customer> customers = new ArrayList<Customer>();
         String sql = "select * from Customers;";
@@ -107,5 +107,5 @@ public class Database {
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setString(1, customer.getName());
         stmt.executeUpdate();
-    }
+    }*/
 }

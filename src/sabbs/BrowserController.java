@@ -63,7 +63,6 @@ public class BrowserController {
 
     @FXML
     private void handleBook() {
-        System.out.println(selectedListing.getId());
         try {
             listingManager.addBooking(new Transaction(102, selectedListing.getId(), Date.valueOf(fromDateBook.getValue()), Date.valueOf(toDateBook.getValue())));
             String confirm = "You have successfully booked.";

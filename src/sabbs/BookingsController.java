@@ -53,7 +53,6 @@ public class BookingsController {
 
     @FXML
     private void handleRemove() {
-        System.out.println(selectedBooking.getId());
         try {
             listingManager.removeBooking(selectedBooking);
             String confirm = "You have successfully removed a booking.";

@@ -82,4 +82,20 @@ public class Database {
         stmt.setString(1, customer.getName());
         stmt.executeUpdate();
     }
+    
+    public List<Customer> getCustomers() throws SQLException {
+        List<Customer> customers = new ArrayList<Customer>();
+        String sql = "select * from Customers;";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            //System.out.println(rs.getString(2));
+            Customer tmp = new Customer(rs.getString(2));
+            tmp.setID(rs.getInt(1));
+            customers.add(tmp);
+        }
+        return customers;
+    }
+    
 }

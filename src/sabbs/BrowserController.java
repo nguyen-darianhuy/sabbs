@@ -68,13 +68,19 @@ public class BrowserController {
         System.out.println(selectedListing.getId());
         try {
             listingManager.addBooking(new Transaction(102, selectedListing.getId(), Date.valueOf(fromDateBook.getValue()), Date.valueOf(toDateBook.getValue())));
+            String confirm = "You have successfully booked.";
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, confirm, ButtonType.OK);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.setHeaderText("Successfully Booked");
+            alert.show();
         } catch (SQLException e) {
             String confirm = "This listing has already been booked during that timeframe.";
             Alert alert = new Alert(Alert.AlertType.WARNING, confirm, ButtonType.OK);
             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-            alert.setHeaderText("Duplicate");
+            alert.setHeaderText("Error: Already Booked");
             alert.show();
         }
+
     }
 
     @FXML

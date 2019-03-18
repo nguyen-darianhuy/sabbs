@@ -12,6 +12,7 @@ import java.util.Map;
 public class ListingManager {
     private Database database;
     private List<Listing> listings;
+    private List<Transaction> bookings;
 
     public ListingManager() throws SQLException {
         database = new Database();
@@ -22,12 +23,12 @@ public class ListingManager {
         database.insertListing(listing);
     }
 
-<<<<<<< HEAD
-    public void addBooking(Transaction transaction) throws SQLException{
-=======
     public void addBooking(Transaction transaction) throws SQLException {
->>>>>>> 973765c4327bd91d1eb13f3f7769785963d5a639
         database.insertTransaction(transaction);
+    }
+
+    public void removeBooking(Transaction transaction) throws SQLException {
+        database.removeTransaction(transaction);
     }
 
     public void sortListings(String attribute, boolean ascending, boolean showFull) throws SQLException {
@@ -36,6 +37,14 @@ public class ListingManager {
 
     public void getListingsByDate(Date from, Date to) throws SQLException {
         listings = database.queryDateListings(from, to);
+    }
+
+    public void queryBookings(int cid) throws SQLException {
+        //TODO get bookings by customer id
+    }
+
+    public List<Transaction> getBookings() {
+        return bookings;
     }
 
     public List<Listing> getListings() {

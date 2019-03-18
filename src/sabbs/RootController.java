@@ -25,12 +25,17 @@ public class RootController {
 
     @FXML
     private void handleBrowser() {
-        main.showBrowser();
+        main.setPage("Browser.fxml");
     }
 
     @FXML
     private void handlePostListing() {
-        main.showPostListing();
+        main.setPage("PostListing.fxml");
+    }
+
+    @FXML
+    private void handleBookings() {
+        main.setPage("Bookings.fxml");
     }
 
     public void setMain(Main main) {

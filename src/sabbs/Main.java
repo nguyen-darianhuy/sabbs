@@ -31,7 +31,18 @@ public class Main extends Application {
         primaryStage.setTitle("Simple AirBnb Booking System");
 
         initRootLayout();
-        showBrowser();
+        setPage("Browser.fxml");
+    }
+
+    public void setPage(String page) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource(page));
+            AnchorPane browser = (AnchorPane) loader.load();
+            rootLayout.setCenter(browser);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -53,74 +64,7 @@ public class Main extends Application {
         }
     }
 
-    /**
-     * Shows the person overview inside the root layout.
-     */
-    public void showBrowser() {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("Browser.fxml"));
-            AnchorPane browser = (AnchorPane) loader.load();
-
-            rootLayout.setCenter(browser);
-            BrowserController c = loader.getController();
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void showPostListing() {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("PostListing.fxml"));
-            AnchorPane postListing = loader.load();
-            rootLayout.setCenter(postListing);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Returns the main stage.
-     * @return
-     */
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-
     public static void main(String[] args) {
         launch(args); //run with GUI
-        //queryDatabaseExample();
-    }
-
-    private static void queryDatabaseExample() {
-        try (
-            Connection connection = DriverManager.getConnection("jdbc:mysql://ambari-head.csc.calpoly.edu:3306/databois", "databois", "kappa321");
-            Statement statement = connection.createStatement()
-        ) {
-            List<Listing> listings = new ArrayList<>();
-            String attribute = "Region";
-            boolean showFull = true;
-            boolean ascending = true;
-            String ascendingStatement = ascending ? "ASC" : "DESC";
-            String showFullStatement = showFull ? "" : "WHERE (id not in (SELECT lid FROM Transactions))";
-            ResultSet rs = statement.executeQuery(String.format("SELECT * FROM Listings %s ORDER BY %s %s;",
-                    showFullStatement, attribute, ascendingStatement));
-
-            int rowCount = 0;
-            while (rs.next()) {
-                Listing listing = new Listing(rs.getInt("cusid"), rs.getString("Region"), rs.getString("Address"), rs.getInt("Price"), rs.getInt("Capacity"));
-                listing.updateId(rs.getInt("id"));
-
-                listings.add(listing);
-                rowCount++;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

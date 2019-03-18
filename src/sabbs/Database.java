@@ -78,13 +78,17 @@ public class Database {
         stmt.executeUpdate();
     }
 
+    public void removeTransaction(Transaction transaction) throws SQLException {
+        statement.executeQuery(String.format("DELETE FROM Transactions WHERE id = %s", transaction.getId()));
+    }
+
     public void insertCustomer(Customer customer) throws SQLException {
         String sql = "INSERT INTO Customers (name) VALUES (?)";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setString(1, customer.getName());
         stmt.executeUpdate();
     }
-    
+
     public List<Customer> getCustomers() throws SQLException {
         List<Customer> customers = new ArrayList<Customer>();
         String sql = "select * from Customers;";

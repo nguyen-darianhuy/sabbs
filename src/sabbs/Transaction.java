@@ -8,6 +8,10 @@ public class Transaction{
     private Date startDate;
     private Date endDate;
 
+    private String address;
+    private String region;
+
+
     public Transaction(int cid, int lid, Date startDate, Date endDate) {
         this.cid = cid;
         this.lid = lid;
@@ -40,4 +44,11 @@ public class Transaction{
         return endDate;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public String getRegion() {
+        return region;
+    }
 }

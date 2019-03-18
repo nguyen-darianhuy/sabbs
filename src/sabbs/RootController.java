@@ -43,7 +43,7 @@ public class RootController {
     }
 
 
-    public void setComboBox(List<Customer> customerList){
+    /*public void setComboBox(List<Customer> customerList){
         comboBox.setItems(FXCollections.observableArrayList(customerList));
-    }
+    }*/
 }

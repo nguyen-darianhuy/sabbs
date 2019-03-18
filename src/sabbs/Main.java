@@ -57,7 +57,7 @@ public class Main extends Application {
             primaryStage.show();
 
             RootController c = loader.getController();
-            c.setComboBox(listingManager.getCustomersList());
+            //c.setComboBox(listingManager.getCustomersList());
             c.setMain(this);
         } catch (IOException e) {
             e.printStackTrace();

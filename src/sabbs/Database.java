@@ -40,12 +40,10 @@ public class Database {
     
     public List<Listing> queryDateListings(Date from, Date to) throws SQLException {
         List<Listing> listings = new ArrayList<Listing>();
-        String sql = "select * from Listings lsts inner join (select distinct t.lid from Transactions t where (startDate not between ? and ?) and (endDate not between ? and ?)) as avaliable_listings on avaliable_listings.lid = lsts.id;";
+        String sql = "select * from Listings lsts inner join (select distinct t.lid from Transactions t where NOT (startDate > ? OR endDate < ?) as avaliable_listings on avaliable_listings.lid = lsts.id;";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setDate(1, to);
         stmt.setDate(2, from);
-        stmt.setDate(3, to);
-        stmt.setDate(4, from);
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             Listing tmp = new Listing(rs.getInt("cusid"), rs.getString("Region"), rs.getString("Address"), rs.getInt("Price"), rs.getInt("Capacity"));

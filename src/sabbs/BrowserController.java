@@ -51,7 +51,7 @@ public class BrowserController {
         addressColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAddress()));
         regionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRegion()));
         priceColumn.setCellValueFactory(cellData -> new SimpleStringProperty("" + cellData.getValue().getPrice()));
-        capacityColumn.setCellValueFactory(cellData -> new SimpleStringProperty("" + cellData.getValue().getPrice()));
+        capacityColumn.setCellValueFactory(cellData -> new SimpleStringProperty("" + cellData.getValue().getCapacity()));
 
         listingTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selectListing(newValue));

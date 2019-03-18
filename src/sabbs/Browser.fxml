@@ -31,16 +31,16 @@
             </AnchorPane>
             <VBox fillWidth="false" prefHeight="298.0" prefWidth="115.0" SplitPane.resizableWithParent="false">
                <children>
-                  <CheckBox fx:id="showFullBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="94.0" text="Show Full">
+                  <CheckBox fx:id="showFullBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleFull" prefHeight="21.0" prefWidth="94.0" text="Show Full">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin></CheckBox>
-                  <DatePicker fx:id="fromDateSearch" onAction="#handleDateSearch" prefHeight="31.0" prefWidth="93.0">
+                  <DatePicker fx:id="fromDateSearch" maxWidth="1.7976931348623157E308" onAction="#handleDateSearch" prefHeight="31.0">
                      <opaqueInsets>
                         <Insets bottom="10.0" />
                      </opaqueInsets>
                   </DatePicker>
-                  <DatePicker fx:id="toDateSearch" onAction="#handleDateSearch" prefHeight="31.0" prefWidth="93.0">
+                  <DatePicker fx:id="toDateSearch" onAction="#handleDateSearch" prefHeight="31.0">
                      <opaqueInsets>
                         <Insets bottom="10.0" />
                      </opaqueInsets>
@@ -48,12 +48,12 @@
                         <Insets bottom="50.0" />
                      </VBox.margin>
                   </DatePicker>
-                  <DatePicker fx:id="fromDateBook" disable="true" prefHeight="31.0" prefWidth="93.0">
+                  <DatePicker fx:id="fromDateBook" disable="true" prefHeight="31.0">
                      <opaqueInsets>
                         <Insets bottom="10.0" />
                      </opaqueInsets>
                   </DatePicker>
-                  <DatePicker fx:id="toDateBook" disable="true" prefHeight="31.0" prefWidth="93.0">
+                  <DatePicker fx:id="toDateBook" disable="true" prefHeight="31.0">
                      <opaqueInsets>
                         <Insets bottom="10.0" />
                      </opaqueInsets>

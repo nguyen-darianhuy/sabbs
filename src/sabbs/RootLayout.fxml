@@ -12,7 +12,7 @@
          <children>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleBrowser" prefHeight="38.0" prefWidth="200.0" text="Browse Listings" />
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePostListing" prefHeight="38.0" prefWidth="150.0" text="Post Listing" />
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleBookings" prefHeight="38.0" prefWidth="150.0" text="Remove Listing" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleBookings" prefHeight="38.0" prefWidth="150.0" text="View Bookings" />
             <ComboBox fx:id="comboBox" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="42.0" prefWidth="303.0" promptText="Select name..." visible="false" />
 
          </children>

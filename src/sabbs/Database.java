@@ -21,30 +21,23 @@ public class Database {
         statement = connection.createStatement();
     }
 
-    public List<Listing> queryListings(String attribute, boolean ascending, boolean showFull) throws SQLException {
+    public List<Listing> queryListingsByAttribute(String attribute, boolean ascending) throws SQLException {
         List<Listing> listings = new ArrayList<Listing>();
         String ascendingStatement = ascending ? "ASC" : "DESC";
-        String showFullStatement = showFull ? "" : "WHERE (id not in (SELECT lid FROM Transactions))";
-        ResultSet rs = statement.executeQuery(String.format("SELECT * FROM Listings %s ORDER BY %s %s;",
-                showFullStatement, attribute, ascendingStatement));
+        ResultSet rs = statement.executeQuery(String.format("SELECT * FROM Listings ORDER BY %s %s;",
+                attribute, ascendingStatement));
 
-        int rowCount = 0;
         while (rs.next()) {
             Listing tmp = new Listing(rs.getInt("cusid"), rs.getString("Region"), rs.getString("Address"), rs.getInt("Price"), rs.getInt("Capacity"));
             tmp.updateId(rs.getInt("id"));
             listings.add(tmp);
-            rowCount++;
         }
         return listings;
     }
     
-    public List<Listing> queryDateListings(Date from, Date to) throws SQLException {
+    public List<Listing> queryListingsByDate(Date from, Date to) throws SQLException {
         List<Listing> listings = new ArrayList<Listing>();
-        String sql = "select * from Listings lsts inner join (select distinct t.lid from Transactions t where NOT (startDate > ? OR endDate < ?)) as avaliable_listings on avaliable_listings.lid = lsts.id;";
-        PreparedStatement stmt = connection.prepareStatement(sql);
-        stmt.setDate(1, to);
-        stmt.setDate(2, from);
-        ResultSet rs = stmt.executeQuery();
+        ResultSet rs = statement.executeQuery(String.format("SELECT * FROM Listings as L LEFT JOIN (SELECT DISTINCT lid FROM Transactions WHERE endDate < \"%s\" OR startDate > \"%s\") as T ON L.id = T.lid;", from, to));
         while (rs.next()) {
             Listing tmp = new Listing(rs.getInt("cusid"), rs.getString("Region"), rs.getString("Address"), rs.getInt("Price"), rs.getInt("Capacity"));
             tmp.updateId(rs.getInt("id"));
@@ -77,14 +70,21 @@ public class Database {
     }
 
     public void removeTransaction(Transaction transaction) throws SQLException {
-        statement.executeQuery(String.format("DELETE FROM Transactions WHERE id = %s", transaction.getId()));
+        statement.executeUpdate(String.format("DELETE FROM Transactions WHERE id = %s", transaction.getId()));
     }
 
-    public void insertCustomer(Customer customer) throws SQLException {
-        String sql = "INSERT INTO Customers (name) VALUES (?)";
+    public List<Transaction> getTransactionsByCustomer(int cid) throws SQLException{
+        List<Transaction> transactions = new ArrayList<>();
+        String sql = "select * from Listings lsts inner join (select * from Transactions t where cid = ? and endDate >= current_date) as tmp on tmp.lid = lsts.id;";
         PreparedStatement stmt = connection.prepareStatement(sql);
-        stmt.setString(1, customer.getName());
-        stmt.executeUpdate();
+        stmt.setInt(1, cid);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            Transaction tmp = new Transaction(rs.getInt("tmp.id"), rs.getInt("cusid"),rs.getInt("lid"),rs.getDate("startDate"),rs.getDate("endDate"),rs.getString("Region"),rs.getString("Address"));
+            transactions.add(tmp);
+        }
+        return transactions;
+
     }
 
     public List<Customer> getCustomers() throws SQLException {
@@ -101,19 +101,11 @@ public class Database {
         }
         return customers;
     }
-    
-    public List<Transaction> getMyBookings(Customer cst) throws SQLException{
-        List<Transaction> transactions = new ArrayList<>();
-        String sql = "select * from Listings lsts inner join (select * from Transactions t where cid = ? and endDate >= current_date) as tmp on tmp.lid = lsts.id;";
-        PreparedStatement stmt = connection.prepareStatement(sql);
-        stmt.setInt(1, cst.getId());
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            Transaction tmp = new Transaction(rs.getInt("cstid"),rs.getInt("lid"),rs.getDate("startDate"),rs.getDate("endDate"),rs.getString("Region"),rs.getString("Address"));
-            transactions.add(tmp);
-        }
-        return transactions;
 
+    public void insertCustomer(Customer customer) throws SQLException {
+        String sql = "INSERT INTO Customers (name) VALUES (?)";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, customer.getName());
+        stmt.executeUpdate();
     }
-    
 }

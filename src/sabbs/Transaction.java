@@ -20,7 +20,8 @@ public class Transaction{
     }
 
 
-    public Transaction(int cid, int lid, Date startDate, Date endDate, String region, String address) {
+    public Transaction(int id, int cid, int lid, Date startDate, Date endDate, String region, String address) {
+        this.id = id;
         this.cid = cid;
         this.lid = lid;
         this.startDate = startDate;

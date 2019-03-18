@@ -1,16 +1,13 @@
 package sabbs;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.List;
 
 public class BrowserController {
     public ListingManager listingManager;
@@ -61,6 +58,7 @@ public class BrowserController {
 
         listingManager = new ListingManager();
         handleFull();
+        showFullBox.setSelected(false);
     }
 
     @FXML
@@ -86,8 +84,12 @@ public class BrowserController {
     @FXML
     private void handleFull() {
         try {
-            listingManager.sortListings("Address", true, showFullBox.isSelected());
-            updateListings();
+            if (showFullBox.isSelected()) {
+                listingManager.queryListingsByAttribute("Region", true);
+                updateListings();
+            } else {
+                handleDateSearch();
+            }
         } catch (SQLException e ) {
             e.printStackTrace();
         }
@@ -97,7 +99,7 @@ public class BrowserController {
     private void handleDateSearch() {
         if (fromDateSearch.getValue() == null || toDateSearch.getValue() == null) return;
         try {
-            listingManager.getListingsByDate(Date.valueOf(fromDateSearch.getValue()), Date.valueOf(toDateSearch.getValue()));
+            listingManager.queryListingsByDate(Date.valueOf(fromDateSearch.getValue()), Date.valueOf(toDateSearch.getValue()));
             updateListings();
         } catch (SQLException e) {
             e.printStackTrace();

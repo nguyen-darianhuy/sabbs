@@ -17,16 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends Application {
-    private ListingManager listingManager;
-
-    private FXMLLoader loader;
     private Stage primaryStage;
     private BorderPane rootLayout;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        loader = new FXMLLoader();
-        listingManager = new ListingManager();
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Simple AirBnb Booking System");
 
@@ -50,6 +45,7 @@ public class Main extends Application {
      */
     public void initRootLayout() throws SQLException {
         try {
+            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("RootLayout.fxml"));
             rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
@@ -63,6 +59,8 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
+
+
 
     public static void main(String[] args) {
         launch(args); //run with GUI

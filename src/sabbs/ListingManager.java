@@ -1,13 +1,10 @@
 package sabbs;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class ListingManager {
     private Database database;
@@ -31,16 +28,16 @@ public class ListingManager {
         database.removeTransaction(transaction);
     }
 
-    public void sortListings(String attribute, boolean ascending, boolean showFull) throws SQLException {
-        listings = database.queryListings(attribute, ascending, showFull);
+    public void queryListingsByAttribute(String attribute, boolean ascending) throws SQLException {
+        listings = database.queryListingsByAttribute(attribute, ascending);
     }
 
-    public void getListingsByDate(Date from, Date to) throws SQLException {
-        listings = database.queryDateListings(from, to);
+    public void queryListingsByDate(Date from, Date to) throws SQLException {
+        listings = database.queryListingsByDate(from, to);
     }
 
     public void queryBookings(int cid) throws SQLException {
-        //TODO get bookings by customer id
+        bookings = database.getTransactionsByCustomer(cid);
     }
 
     public List<Transaction> getBookings() {
@@ -51,7 +48,7 @@ public class ListingManager {
         return listings;
     }
 
-    public List<Customer> getCustomersList() throws SQLException {
+    /*public List<Customer> getCustomersList() throws SQLException {
         return database.getCustomers();
-    }
+    }*/
 }

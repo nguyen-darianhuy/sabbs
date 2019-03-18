@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 
-import java.sql.Date;
 import java.sql.SQLException;
 
 public class BookingsController {
@@ -45,7 +44,8 @@ public class BookingsController {
 
         try {
             listingManager = new ListingManager();
-            updateListings();
+            listingManager.queryBookings(102);
+            updateBookings();
         } catch (SQLException e ) {
             e.printStackTrace();
         }
@@ -56,17 +56,21 @@ public class BookingsController {
         System.out.println(selectedBooking.getId());
         try {
             listingManager.removeBooking(selectedBooking);
+            String confirm = "You have successfully removed a booking.";
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, confirm, ButtonType.OK);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.setHeaderText("Successfully Removed");
+            alert.show();
+
+            listingManager.queryBookings(102);
+            updateBookings();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        String confirm = "You have successfully removed a booking.";
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, confirm, ButtonType.OK);
-        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        alert.setHeaderText("Successfully Removed");
-        alert.show();
+
     }
 
-    public void updateListings() {
+    private void updateBookings() {
         bookingTable.setItems(FXCollections.observableArrayList(listingManager.getBookings()));
     }
 }

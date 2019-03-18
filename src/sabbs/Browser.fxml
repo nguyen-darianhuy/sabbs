@@ -31,7 +31,7 @@
             </AnchorPane>
             <VBox fillWidth="false" prefHeight="298.0" prefWidth="115.0" SplitPane.resizableWithParent="false">
                <children>
-                  <CheckBox fx:id="showFullBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleFull" prefHeight="21.0" prefWidth="94.0" text="Show Full">
+                  <CheckBox fx:id="showFullBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleFull" prefHeight="21.0" prefWidth="94.0" selected="true" text="Show Full">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin></CheckBox>

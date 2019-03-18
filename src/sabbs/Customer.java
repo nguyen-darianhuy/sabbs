@@ -15,6 +15,9 @@ public class Customer{
         return name;
     }
 
+    public void setID(int id){
+        this.id = id;
+    }
     @Override
     public String toString(){
         return "(\"" + name + "\")";

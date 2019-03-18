@@ -102,4 +102,18 @@ public class Database {
         return customers;
     }
     
+    public List<Transaction> getMyBookings(Customer cst) throws SQLException{
+        List<Transaction> transactions = new ArrayList<>();
+        String sql = "select * from Listings lsts inner join (select * from Transactions t where cid = ? and endDate >= current_date) as tmp on tmp.lid = lsts.id;";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, cst.getId());
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            Transaction tmp = new Transaction(rs.getInt("cstid"),rs.getInt("lid"),rs.getDate("startDate"),rs.getDate("endDate"),rs.getString("Region"),rs.getString("Address"));
+            transactions.add(tmp);
+        }
+        return transactions;
+
+    }
+    
 }

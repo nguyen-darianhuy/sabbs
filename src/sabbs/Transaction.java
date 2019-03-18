@@ -19,6 +19,16 @@ public class Transaction{
         this.endDate = endDate;
     }
 
+
+    public Transaction(int cid, int lid, Date startDate, Date endDate, String region, String address) {
+        this.cid = cid;
+        this.lid = lid;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.region = region;
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return String.format("(%s, %s, \"%s\", \"%s\")", cid, lid, startDate, endDate);

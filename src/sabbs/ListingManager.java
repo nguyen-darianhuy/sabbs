@@ -17,11 +17,11 @@ public class ListingManager {
         listings = FXCollections.observableArrayList();
     }
 
-    public void addListing(Listing listing) {
+    public void addListing(Listing listing) throws SQLException {
         database.insertListing(listing);
     }
 
-    public void addBooking(Transaction transaction) {
+    public void addBooking(Transaction transaction) throws SQLException{
         database.insertTransaction(transaction);
     }
 
@@ -31,5 +31,9 @@ public class ListingManager {
 
     public List<Listing> getListings() {
         return listings;
+    }
+
+    public List<Customer> getCustomersList() throws SQLException {
+        return database.getCustomers();
     }
 }

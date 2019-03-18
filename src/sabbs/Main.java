@@ -37,7 +37,7 @@ public class Main extends Application {
     /**
      * Initializes the root layout.
      */
-    public void initRootLayout() {
+    public void initRootLayout() throws SQLException {
         try {
             loader.setLocation(getClass().getResource("RootLayout.fxml"));
             rootLayout = loader.load();
@@ -46,6 +46,7 @@ public class Main extends Application {
             primaryStage.show();
 
             RootController c = loader.getController();
+            c.setComboBox(listingManager.getCustomersList());
             c.setMain(this);
         } catch (IOException e) {
             e.printStackTrace();

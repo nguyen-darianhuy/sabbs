@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
@@ -12,6 +13,7 @@
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleBrowser" prefHeight="38.0" prefWidth="200.0" text="Browse Listings" />
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlePostListing" prefHeight="38.0" prefWidth="150.0" text="Post Listing" />
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="38.0" prefWidth="150.0" text="Remove Listing" />
+            <ComboBox fx:id="comboBox" prefHeight="42.0" prefWidth="294.0" />
          </children>
          <BorderPane.margin>
             <Insets />

@@ -40,7 +40,7 @@ public class Database {
     
     public List<Listing> queryDateListings(Date from, Date to) throws SQLException {
         List<Listing> listings = new ArrayList<Listing>();
-        String sql = "select * from Listings lsts inner join (select distinct t.lid from Transactions t where NOT (startDate > ? OR endDate < ?) as avaliable_listings on avaliable_listings.lid = lsts.id;";
+        String sql = "select * from Listings lsts inner join (select distinct t.lid from Transactions t where NOT (startDate > ? OR endDate < ?)) as avaliable_listings on avaliable_listings.lid = lsts.id;";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setDate(1, to);
         stmt.setDate(2, from);

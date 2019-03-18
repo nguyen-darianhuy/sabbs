@@ -14,9 +14,16 @@ create trigger prevent_listing_dupes before insert on Listings for each row
 create trigger prevent_invalid_booking before insert on Transactions for each row
   BEGIN
     if (exists(select 1 from Transactions where lid = new.lid
-                                                and not(NOT (startDate > new.endDate OR
-                                                             endDate < new.startDate)))) then
+                                                and not (startDate > new.endDate OR
+                                                             endDate < new.startDate))) then
       SIGNAL SQLSTATE 'TD001'
       SET MESSAGE_TEXT = 'Cant book';
+    end if;
+  end;
+
+create trigger prevent_invalid_booking_dates before insert on Transactions for each row
+  begin
+    if (new.endDate < new.startDate) then
+      SIGNAL SQLSTATE 'TD002';
     end if;
   end;

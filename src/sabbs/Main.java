@@ -64,12 +64,8 @@ public class Main extends Application {
 
             rootLayout.setCenter(browser);
             BrowserController c = loader.getController();
-            try {
-                listingManager.sortListings("Address", true, true);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            c.updateListings(FXCollections.observableArrayList(listingManager.getListings()));
+
+
 
         } catch (IOException e) {
             e.printStackTrace();

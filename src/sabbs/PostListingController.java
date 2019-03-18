@@ -47,7 +47,7 @@ public class PostListingController {
         else{
             int intPrice = Integer.parseInt(price);
             int intCap = Integer.parseInt(capacity);
-            Listing newListing = new Listing(1, region, address, intPrice, intCap);
+            Listing newListing = new Listing(102, region, address, intPrice, intCap);
             try {
                 database.insertListing(newListing);
 

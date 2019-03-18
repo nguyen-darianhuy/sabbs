@@ -6,7 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -53,40 +55,51 @@ public class BrowserController {
         regionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRegion()));
         priceColumn.setCellValueFactory(cellData -> new SimpleStringProperty("" + cellData.getValue().getPrice()));
         capacityColumn.setCellValueFactory(cellData -> new SimpleStringProperty("" + cellData.getValue().getPrice()));
-        listingManager = new ListingManager();
 
         listingTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> selectListing(newValue));
-        //toDateSearch.valueProperty().addListener(((observable, oldValue, newValue) -> handleDateSearch()));
+
+        listingManager = new ListingManager();
+        handleFull();
     }
 
     @FXML
     private void handleBook() {
-        System.out.println(selectedListing);
-
+        System.out.println(selectedListing.getId());
+        try {
+            listingManager.addBooking(new Transaction(102, selectedListing.getId(), Date.valueOf(fromDateBook.getValue()), Date.valueOf(toDateBook.getValue())));
+        } catch (SQLException e) {
+            String confirm = "This listing has already been booked during that timeframe.";
+            Alert alert = new Alert(Alert.AlertType.WARNING, confirm, ButtonType.OK);
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.setHeaderText("Duplicate");
+            alert.show();
+        }
     }
 
     @FXML
-    private void handleFull() throws SQLException{
-        if(showFullBox.isSelected()) {
-            listingManager.sortListings("Address", true, true);
-            updateListings(FXCollections.observableArrayList(listingManager.getListings()));
-        }
-        else{
-            listingManager.sortListings("Address", true, false);
-            updateListings(FXCollections.observableArrayList(listingManager.getListings()));
+    private void handleFull() {
+        try {
+            listingManager.sortListings("Address", true, showFullBox.isSelected());
+            updateListings();
+        } catch (SQLException e ) {
+            e.printStackTrace();
         }
     }
 
     @FXML
     private void handleDateSearch() {
-        if (fromDateSearch == null || toDateSearch == null) return;
-        System.out.println(fromDateSearch.getValue());
-        System.out.println(toDateSearch.getValue());
+        if (fromDateSearch.getValue() == null || toDateSearch.getValue() == null) return;
+        try {
+            listingManager.getListingsByDate(Date.valueOf(fromDateSearch.getValue()), Date.valueOf(toDateSearch.getValue()));
+            updateListings();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public void updateListings(ObservableList<Listing> listings) {
-        listingTable.setItems(listings);
+    public void updateListings() {
+        listingTable.setItems(FXCollections.observableArrayList(listingManager.getListings()));
     }
 }
